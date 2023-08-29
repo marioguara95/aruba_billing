@@ -1,0 +1,39 @@
+<h2>Lista Fatture Emesse</h2>
+
+<table class="table">
+  <thead class="">
+    <tr>
+      <th>Data inizio</th>
+      <th>Data fine</th>
+      <th>Ricerca per numero fattura</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><input type="date" [(ngModel)]="startDateFilter" placeholder="Data inizio"></td>
+      <td><input type="date" [(ngModel)]="endDateFilter" placeholder="Data fine"></td>
+      <td><input type="text" [(ngModel)]="searchFilter" placeholder="Ricerca fattura"></td>
+    </tr>
+  </tbody>
+</table>
+<button (click)="applyFilters()">Applica Filtri</button>
+
+
+<table class="table">
+  <thead class="table-dark">
+    <tr>
+      <th>Numero Fattura</th>
+      <th>Nome Cliente</th>
+      <th>Totale fattura</th>
+      <th>data emissione</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let invoice of invoices">
+      <td>{{ invoice.invoice_number }}</td>
+      <td>{{ invoice.client.name }}</td>
+      <td>{{ invoice.total_amount }}</td>
+      <td>{{ invoice.issuance_date }}</td>
+    </tr>
+  </tbody>
+</table>

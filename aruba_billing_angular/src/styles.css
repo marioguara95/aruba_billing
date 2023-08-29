@@ -1,0 +1,13 @@
+@import '~bootstrap/dist/css/bootstrap.css';
+.navbar a{
+  margin-left:20px;
+}
+
+.content{
+  margin-top:25px;
+  margin-left:25px;
+}
+
+.table th{
+  text-transform:uppercase;
+}
