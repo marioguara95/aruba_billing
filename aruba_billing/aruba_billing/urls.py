@@ -1,13 +1,11 @@
 from django.contrib import admin
+from django.contrib.auth import login
+from django.template.defaulttags import url
 from django.urls import path, include
-from django.views.generic import RedirectView
-from oauth2_provider.views import AuthorizationView, TokenView
 
 urlpatterns = [
     path('', include('master_data.urls')),
     path('admin/', admin.site.urls),
-    path('oauth/authorize/', AuthorizationView.as_view(), name="authorize"),
-    path('oauth/token/', TokenView.as_view(), name="token"),
-    path('oauth/callback/', RedirectView.as_view(), name="callback"),
-
+    path('accounts/', include('allauth.urls')),
+    path('auth/', include('social_django.urls', namespace='social')),
 ]

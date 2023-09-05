@@ -1,0 +1,27 @@
+version: '3'
+services:
+  # Backend Django
+  django:
+    build:
+      context: ./aruba_billing
+    container_name: django-container
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./aruba_billing:/app  # Monta il codice sorgente dell'app Django
+    environment: # Variabili d'ambiente impostabili e revuperabili dal codice
+      - DEBUG=True
+      - DJANGO_SECRET_KEY=mysecretkey
+
+
+  # Frontend Angular
+  angular:
+    build:
+      context: ./aruba_billing_angular
+    container_name: angular-container
+    ports:
+      - 80:4200
+    volumes:
+      - ./aruba_billing_angular:/app  # Monta il codice sorgente dell'app Angular
+    command: ["npm", "install","npm", "fund"]
+

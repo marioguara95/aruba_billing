@@ -1,8 +1,6 @@
 from django.utils import timezone
 from rest_framework import viewsets, status
-from rest_framework.authentication import TokenAuthentication
 from rest_framework.decorators import action
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from .models import Client, Product, Invoice, InvoiceDetail
 from .serializers import ClientSerializer, ProductSerializer, InvoiceSerializer
@@ -19,8 +17,11 @@ class InvoiceViewSet(viewsets.ModelViewSet):
     queryset = Invoice.objects.all()
     serializer_class = InvoiceSerializer
 
+
+    # Altri metodi della view
     def create(self, request, *args, **kwargs):
         client = request.data.get("client")
+        print(client)
         # Creazione o recupero del cliente
         name = client.pop('name')
         address = client.pop('address')
@@ -75,13 +76,8 @@ class InvoiceViewSet(viewsets.ModelViewSet):
 
         return Response({'message': 'Fattura creata con successo', 'invoice_id': invoice_instance.id})
 
-    @action(detail=True, methods=['get'])
-    def invoice_status(self, request, pk=None):
-        invoice = self.get_object()
-        total_amount = invoice.get_total_amount()  # Chiamata al metodo che calcola l'importo
-        return Response({'status': 'Paid', 'total_amount': total_amount})
 
-    @action(detail=False, methods=['get'])
+    @action(methods=["get"], detail=False)
     def invoices_in_interval(self, request):
         start_date = request.query_params.get('start_date')
         end_date = request.query_params.get('end_date')
@@ -118,4 +114,12 @@ class InvoiceViewSet(viewsets.ModelViewSet):
             invoices = invoices.filter(invoice_number=invoice_id)
 
         serializer = self.get_serializer(invoices, many=True)
+
         return Response(serializer.data)
+
+    @action(detail=True, methods=['get'])
+    def invoice_status(self, request, pk=None):
+        invoice = self.get_object()
+        total_amount = invoice.get_total_amount()  # Chiamata al metodo che calcola l'importo
+        return Response({'status': 'Paid', 'total_amount': total_amount})
+
