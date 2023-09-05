@@ -1,7 +1,6 @@
 from django.contrib import admin
-from django.contrib.auth import login
-from django.template.defaulttags import url
 from django.urls import path, include
+
 
 urlpatterns = [
     path('', include('master_data.urls')),

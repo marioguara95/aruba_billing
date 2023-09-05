@@ -18,6 +18,7 @@
     Full Name: {{ user.socialaccount_set.all.0.extra_data.name }} <br>
 
     <a href="{% url 'api-root' %}"><h3>Testa api</h3></a>
+    <a href="{% url 'admin:index' %}"><h3>Admin</h3></a>
 
     {% else %}
     <a href="{% provider_login_url 'google' %}">Login with Google</a>

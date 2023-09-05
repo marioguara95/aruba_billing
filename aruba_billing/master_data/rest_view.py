@@ -21,7 +21,6 @@ class InvoiceViewSet(viewsets.ModelViewSet):
     # Altri metodi della view
     def create(self, request, *args, **kwargs):
         client = request.data.get("client")
-        print(client)
         # Creazione o recupero del cliente
         name = client.pop('name')
         address = client.pop('address')
@@ -41,8 +40,6 @@ class InvoiceViewSet(viewsets.ModelViewSet):
         invoice_number = request.data.get("invoice_number")
         issuance_date = request.data.get("issuance_date")
 
-        print(invoice_number, issuance_date)
-
         try:
             invoice_instance = Invoice.objects.get(invoice_number=invoice_number)
         except:
@@ -53,9 +50,6 @@ class InvoiceViewSet(viewsets.ModelViewSet):
 
         products_data = request.data.get('products')
 
-        print(products_data)
-
-        # Creazione dei dettagli della fattura (prodotti)
         for product in products_data:
             product_name = product.pop('name')
             product_description = product.pop('description')

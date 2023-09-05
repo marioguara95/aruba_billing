@@ -86,9 +86,6 @@ lo stato è simulato)_
 **password: Mermec01***
 
 
-<picture>
-  <img src="static/images/1.png">
-</picture>
 
 ## Per Eseguire il progetto:
 ````
@@ -98,6 +95,23 @@ cd aruba_billing
 
 docker-compose up --build
 ````
+## Guida all'utilizzo
+
+Per effettuare i test utilizzare il seguente link: 
+**http://localhost:8000**.
+Dopo aver effettuato il login con google è possibile testare le varie api con i form oppure con i json che troverai qui 
+di seguito.
+
+Per verificare il corretto funzionamento del front-end recarsi all'url **http://localhost:80**.
+
+E' possibile effettuare query di ricerca che vengono eseguite sul numero di fattura, cercare le fatture per data oppure 
+rimuovendo tutti i filtri è possibile visualizzarle tutte.
+
+E' possibile scaricare degli export csv riepilogativi delle fatture ricevute nella data odierna
+chiamando il link (anche con chiamata curl)
+http://localhost:8000/generate_csv_report/
+Per scaricare quelli di un particolare giorno utilizzare un link di questo tipo
+http://localhost:8000/generate_csv_report/?day=YYYY-MM-GG
 
 
 ## Test inserimento fattura 1. Client*e* esistente

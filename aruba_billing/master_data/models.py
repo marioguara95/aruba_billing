@@ -1,3 +1,5 @@
+import os
+
 from django.db import models
 
 class Client(models.Model):
@@ -17,7 +19,7 @@ class Product(models.Model):
     name = models.CharField(max_length=100, verbose_name="nome", blank=False, null=False)
     description = models.TextField(verbose_name="descrizione", blank=False,null=False)
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="prezzo", blank=False,null=False)
-    quantity_in_stock = models.PositiveIntegerField()
+    quantity_in_stock = models.PositiveIntegerField(default=0, verbose_name="quantità in magazzino")
 
     class Meta:
         verbose_name = "prodotto"
@@ -32,6 +34,7 @@ class Invoice(models.Model):
     total_amount = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="importo totale", blank=True)
     client = models.ForeignKey(Client, on_delete=models.CASCADE, blank=False, null=False)
     products = models.ManyToManyField(Product, through='InvoiceDetail')
+    invoice_signed_in_cades = models.BooleanField(default=False, blank=True, verbose_name="Firmato", help_text="spunta se firmato")
 
     class Meta:
         verbose_name = "fattura"
@@ -44,15 +47,21 @@ class Invoice(models.Model):
 
     def get_total_amount(self):
         try:
-            total_amount = sum(detail.product.price * detail.quantity for detail in self.invoice_details.all())
+            if self.pk:
+                total_amount = sum(detail.product.price * detail.quantity for detail in self.invoice_details.all())
+            else:
+                total_amount = 0
+            return total_amount
         except Exception as e:
             total_amount = 0
             print(f"Errore nel calcolo della fattura: {e}")
-        return total_amount
+            return total_amount
 
     def save(self, *args, **kwargs):
+
         self.total_amount = self.get_total_amount()
         super().save(*args, **kwargs)
+        #TODO: Comunica con il servizio di Fatturazione Elettronica di Aruba per inviare la fattura.
 
     def __str__(self):
         return self.invoice_number
@@ -60,16 +69,17 @@ class Invoice(models.Model):
 class InvoiceDetail(models.Model):
     invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE, related_name='invoice_details', verbose_name="fattura")
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="prodotto")
-    quantity = models.PositiveIntegerField(verbose_name="quantità")
+    quantity = models.PositiveIntegerField(default=0,null=True, verbose_name="quantità")
 
     class Meta:
         verbose_name = "dettaglio fattura"
         verbose_name_plural = "dettaglio fatture"
 
     def __str__(self):
-        return f"DEttaglio {self.invoice.invoice_number} - {self.product.name}"
+        return f"Dettaglio {self.invoice.invoice_number} - {self.product.name}"
 
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         self.invoice.update_total_amount()
+
