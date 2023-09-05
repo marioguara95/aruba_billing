@@ -8,7 +8,7 @@
 </head>
 
 <body>
-    <h1>My Google Login Project</h1>
+    <h1>Pagina iniziale di autenticazone con Oauth2 Google</h1>
     {% if user.is_authenticated %}
     <p>Welcome, {{ user.username }} !</p>
     Avatar URL: <img src="{{ user.socialaccount_set.all.0.get_avatar_url }}" > <br>
@@ -20,7 +20,6 @@
     <a href="{% url 'api-root' %}"><h3>Testa api</h3></a>
 
     {% else %}
-    <h1>My Google Login Project</h1>
     <a href="{% provider_login_url 'google' %}">Login with Google</a>
     {% endif %}
 

@@ -60,8 +60,8 @@ In base alla natura della richiesta, inoltra il lavoro al servizio appropriato (
 
 
 # Domanda 2 
-Si richiede inoltre di implementare un modulo per gestire l’API Rest che acceda al db e permetta di
-gestire le seguenti operazioni: 
+**Si richiede inoltre di implementare un modulo per gestire l’API Rest che acceda al db e permetta di
+gestire le seguenti operazioni:** 
 
 1. invio fattura, 
 
@@ -78,12 +78,29 @@ lo stato è simulato)_
    - Teoria:  http://localhost:8000/api/invoices/invoices_in_interval/?start_date=YYYY-MM-DD&end_date=YYYY-MM-DD
    - Esempio: http://localhost:8000/api/invoices/invoices_in_interval/?start_date=2023-01-25&end_date=2023-08-26
 
-##
 
 
-## Test inserimento fattura 1. Cliente esistente
+## Utente admin di Django Admin
+**username: marioguara**
+
+**password: Mermec01***
 
 
+<picture>
+  <img src="static/images/1.png">
+</picture>
+
+## Per Eseguire il progetto:
+````
+git clone https://github.com/marioguara95/aruba_billing.git
+
+cd aruba_billing
+
+docker-compose up --build
+````
+
+
+## Test inserimento fattura 1. Client*e* esistente
 
 ````
 {
